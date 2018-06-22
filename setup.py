@@ -22,6 +22,7 @@ setup(
     install_requires=[
         'lxml',
         'requests',
+        'PyYAML',
     ],
     extras_require={
         'dev': [
