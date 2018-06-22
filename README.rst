@@ -66,11 +66,8 @@ CLI
             Clocwalk v0.1.0
       Project code and dependent component analysis tools.
     
-    
     [15:38:50] [INFO] 4 fingerprints plugin loaded.
-    
     [15:38:50] [INFO] checking depends ...
-    
     [15:38:50] [INFO] analysis statistics code ...
     {'cloc': {u'C': {u'blank': 671, u'code': 2418, u'comment': 297, u'nFiles': 3},
               u'C Shell': {u'blank': 12,
