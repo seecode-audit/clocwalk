@@ -3,6 +3,8 @@ clocwalk
 
 Project code and dependent component analysis tools.
 
+.. image:: https://travis-ci.com/MyKings/clocwalk.svg?branch=master
+    :target: https://travis-ci.com/MyKings/clocwalk
 
 .. image:: https://badge.fury.io/py/clocwalk.svg
     :target: https://badge.fury.io/py/clocwalk
