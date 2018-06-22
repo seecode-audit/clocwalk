@@ -1,0 +1,6 @@
+cloc:
+  args:
+    - "--exclude-dir"
+    - ".git,locale,.scannerwork,node_modules"
+    - "-exclude-ext"
+    - ".tar.gz,.styl,.eot,.dll,.bak,.gif,.woff,.crt,.rar,.spf,.scss,.log,.bat,echarts,.ttf,.min.js,.bmp,.less,jquery,.csv,.css,.as,.otf,.jar,.txt,.psd,.pdf,.po,.manifest,.md,.jpg,.docx,.jpeg,.zip,.db,.doc,.svg,.ico,.sh,.tpl,.so,.properties,.cur,.template,.swp,.png,.iml,.tar,bootstrap,.swf,.mp3,.exe,.mp4"
