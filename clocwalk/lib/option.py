@@ -6,7 +6,6 @@ import sys
 import glob
 import logging
 import inspect
-import yaml
 
 from clocwalk.lib.data import paths
 from clocwalk.lib.data import logger
@@ -62,6 +61,7 @@ def _setConfigFile():
 
     :return:
     """
+    import yaml
     with open(paths.config_path) as fp:
         conf.cloc = yaml.load(fp)
 
