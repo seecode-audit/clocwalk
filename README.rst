@@ -31,13 +31,31 @@ Project code and dependent component analysis tools.
     :alt: GitHub license
     :target: https://github.com/MyKings/clocwalk/blob/master/LICENSE
 
+Dependent installation
+-------------------------
+
+::
+
+  npm install -g cloc                    # https://www.npmjs.com/package/cloc
+  sudo apt install cloc                  # Debian, Ubuntu
+  sudo yum install cloc                  # Red Hat, Fedora
+  sudo dnf install cloc                  # Fedora 22 or later
+  sudo pacman -S cloc                    # Arch
+  sudo emerge -av dev-util/cloc          # Gentoo https://packages.gentoo.org/packages/dev-util/cloc
+  sudo apk add cloc                      # Alpine Linux
+  sudo pkg install cloc                  # FreeBSD
+  sudo port install cloc                 # Mac OS X with MacPorts
+  brew install cloc                      # Mac OS X with Homebrew
+  choco install cloc                     # Windows with Chocolatey
+  scoop install cloc                     # Windows with Scoop
+
 
 Install
 ----------
 
 ::
   
-  pip install clocwalk
+  pip setup.py install
 
 
 Usage
