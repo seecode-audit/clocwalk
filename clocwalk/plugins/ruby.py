@@ -116,6 +116,7 @@ def start(**kwargs):
     for item in result_file_list:
         # FIXME
         relative_path = item.replace('{0}/'.format(code_dir), '')
+        relative_path = relative_path[1:] if relative_path.startswith('/') else relative_path
         c_dir, _ = os.path.split(item)
         result.extend(_get_dependencies(code_dir=c_dir, file_name=item, origin=relative_path))
 

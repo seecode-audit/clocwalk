@@ -16,7 +16,7 @@ from clocwalk.lib.data import paths
 from clocwalk.lib.data import conf
 from clocwalk.lib.data import kb
 from clocwalk.lib.data import logger
-from clocwalk.lib.exception import UserQuitException
+from clocwalk.lib.exception import UserQuitException, CodeDirIsNoneException
 from clocwalk.lib.option import init
 from clocwalk.lib.clocwrapper import ClocCode
 
@@ -38,17 +38,25 @@ def modulePath():
 class ClocDetector(object):
     """"""
 
-    def __init__(self, code_dir, skip_check_new_version=False):
+    def __init__(self, **kwargs):
         """
         Constructor
         """
+        conf.verbose = conf.verbose or 1
         paths.ROOT_PATH = modulePath()
         setPath()
         init()
 
+        code_dir = kwargs.get('code_dir', None)
+        skip_check_new_version = kwargs.get('skip_check_new_version', False)
+        self.tag_filter = kwargs.get('tag_filter', [])
+        self.timeout = kwargs.get('timeout', 5)
+
+        if not code_dir:
+            raise CodeDirIsNoneException('"code_dir" parameter cannot be empty!')
         self.code_dir = code_dir
         self.skip_check_new_version = skip_check_new_version
-        self.result = {'cloc': None, 'depends': []}
+        self._result = {'cloc': None, 'depends': []}
         self.cloc = ClocCode()
 
     def cloc_run(self):
@@ -58,7 +66,7 @@ class ClocDetector(object):
         try:
             logger.info('analysis statistics code ...')
             self.cloc.start(code_dir=self.code_dir, args=conf.cloc['cloc']['args'])
-            self.result['cloc'] = json.loads(self.cloc.result)
+            self._result['cloc'] = json.loads(self.cloc.result)
             retVal = True
         except Exception as ex:
             import traceback;traceback.print_exc()
@@ -71,12 +79,18 @@ class ClocDetector(object):
 
         :return:
         """
+
         retVal = False
 
         for func, product in kb.pluginFunctions:
             try:
                 logger.debug("test item depends on package using '%s'" % product)
-                result = func(code_dir=self.code_dir, skipNewVerCheck=self.skip_check_new_version)
+                result = func(
+                    code_dir=self.code_dir,
+                    skipNewVerCheck=self.skip_check_new_version,
+                    timeout=self.timeout,
+                    tag_filter=self.tag_filter
+                )
             except Exception as ex:
                 errMsg = "exception occurred while running "
                 errMsg += "script for '%s' ('%s')" % (product, ex)
@@ -86,7 +100,7 @@ class ClocDetector(object):
 
             if result:
                 retVal = True
-                self.result['depends'].append({product: result})
+                self._result['depends'].append({product: result})
 
         return retVal
 
@@ -95,7 +109,7 @@ class ClocDetector(object):
         self.plugin_run()
 
     def getResult(self):
-        return self.result
+        return self._result
 
     def getPluginNames(self):
         return [i for i in kb.pluginFunctions]

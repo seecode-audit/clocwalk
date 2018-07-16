@@ -28,3 +28,8 @@ class POMTestCase(TestCase):
         result = start(code_dir=os.path.join(EXAMPLE_DATA_PATH, 'plugins', 'pom', 'a'))
         for item in result:
             self.assertIsNotNone(item['new_version'])
+
+    def test_start_dir(self):
+        result = start(code_dir='', skipNewVerCheck=True, tag_filter=['org.mybatis.generator'])
+        for item in result:
+            self.assertIn(item['origin'], self.pom_dir)

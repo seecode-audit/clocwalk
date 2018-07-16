@@ -50,7 +50,7 @@ Usage
     def test():
         c = ClocDetector(code_dir='/tmp/sample_project')
         c.start()
-        print c.result
+        print c.getResult()
     
     if __name__ == '__main__':
         test()
@@ -60,7 +60,7 @@ CLI
 
 ::
   
-  $ python cli.py -p /tmp/clocwalk
+  $ python cli.py -p /tmp/clocwalk --skip-check-newver
 
 
 ::

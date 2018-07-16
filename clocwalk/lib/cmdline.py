@@ -32,7 +32,7 @@ def cmdLineParser():
 
         parser.add_option('-p', '--code-dir', dest='code_dir', help='Code path or directory')
         parser.add_option('--skip-check-newver',dest='skip_check_new_version', action='store_true',
-                          default=False, help='Skip detection of new version components (default False).')
+                          default=True, help='Skip detection of new version components (default False).')
 
         parser.add_option('--exclude-ext', dest='exclude_ext', help='Does not include file extensions')
         parser.add_option('--exclude-dir', dest='exclude_dir', help='Does not contain directories')
