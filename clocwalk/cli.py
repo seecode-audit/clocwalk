@@ -8,7 +8,6 @@ import pprint
 import json
 
 from clocwalk.lib.common import banner
-from clocwalk.lib.common import getUnicode
 from clocwalk.lib.common import setPath
 from clocwalk.lib.common import weAreFrozen
 from clocwalk.lib.cmdline import cmdLineParser
@@ -32,7 +31,7 @@ def modulePath():
     except NameError:
         _ = inspect.getsourcefile(modulePath)
 
-    return getUnicode(os.path.dirname(os.path.realpath(_)), encoding=sys.getfilesystemencoding())
+    return os.path.dirname(os.path.realpath(_))
 
 
 class ClocDetector(object):
@@ -59,28 +58,22 @@ class ClocDetector(object):
         self._result = {'cloc': None, 'depends': []}
         self.cloc = ClocCode()
 
-    def cloc_run(self):
-        """
-        """
-        retVal = False
-        try:
-            logger.info('analysis statistics code ...')
-            self.cloc.start(code_dir=self.code_dir, args=conf.cloc['cloc']['args'])
-            self._result['cloc'] = json.loads(self.cloc.result)
-            retVal = True
-        except Exception as ex:
-            import traceback;traceback.print_exc()
-            logger.warning(ex.message)
-
-        return retVal
-
-    def plugin_run(self):
+    def start(self):
         """
 
         :return:
         """
 
         retVal = False
+
+        try:
+            logger.info('analysis statistics code ...')
+            self.cloc.start(code_dir=self.code_dir, args=conf.cloc['cloc']['args'])
+            self._result['cloc'] = json.loads(self.cloc.result)
+        except Exception as ex:
+            import traceback;
+            traceback.print_exc()
+            logger.warning(ex)
 
         for func, product in kb.pluginFunctions:
             try:
@@ -92,6 +85,8 @@ class ClocDetector(object):
                     tag_filter=self.tag_filter
                 )
             except Exception as ex:
+                import traceback;
+                traceback.print_exc()
                 errMsg = "exception occurred while running "
                 errMsg += "script for '%s' ('%s')" % (product, ex)
                 logger.critical(errMsg)
@@ -104,13 +99,11 @@ class ClocDetector(object):
 
         return retVal
 
-    def start(self):
-        self.cloc_run()
-        self.plugin_run()
-
+    @property
     def getResult(self):
         return self._result
 
+    @property
     def getPluginNames(self):
         return [i for i in kb.pluginFunctions]
 
@@ -130,10 +123,10 @@ def main():
             raise Exception(msg)
 
         c = ClocDetector(code_dir=conf.code_dir, skip_check_new_version=conf.skip_check_new_version)
-        logger.info("%d fingerprints plugin loaded." % len(c.getPluginNames()))
+        logger.info("%d fingerprints plugin loaded." % len(c.getPluginNames))
         logger.info("checking depends ...")
         c.start()
-        pprint.pprint(c.getResult())
+        pprint.pprint(c.getResult)
 
     except UserQuitException:
         logger.error("user quit")

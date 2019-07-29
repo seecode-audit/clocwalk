@@ -61,7 +61,7 @@ def _setConfigFile():
     """
     import yaml
     with open(paths.config_path) as fp:
-        conf.cloc = yaml.load(fp)
+        conf.cloc = yaml.load(fp, Loader=yaml.FullLoader)
 
 
 def setVerbosity():

@@ -9,7 +9,7 @@ Project code and dependent component analysis tools.
 .. image:: https://badge.fury.io/py/clocwalk.svg
     :target: https://badge.fury.io/py/clocwalk
 
-.. image:: https://img.shields.io/badge/python-2.6|2.7-brightgreen.svg
+.. image:: https://img.shields.io/badge/python-2.7|3.6|3.7-brightgreen.svg
     :target: https://www.python.org/
 
 .. image:: https://img.shields.io/github/issues/MyKings/clocwalk.svg

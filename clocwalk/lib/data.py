@@ -9,6 +9,7 @@ paths = AttribDict()
 # object to share within function and classes command
 # line options and settings
 conf = AttribDict()
+conf.verbose = 1
 
 # object to share within function and classes results
 kb = AttribDict()

@@ -64,6 +64,10 @@ def start(**kwargs):
         glob.glob(os.path.join(code_dir, '*', '*', file_name)) + \
         glob.glob(os.path.join(code_dir, '*', '*', '*', file_name))
 
+    _ = glob.glob(os.path.join(code_dir, 'requirements', '*.txt'))
+    if _:
+        result_file_list.extend(_)
+
     result = []
 
     for item in result_file_list:

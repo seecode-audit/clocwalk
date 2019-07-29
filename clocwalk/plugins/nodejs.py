@@ -18,7 +18,7 @@ def _get_dependencies(file_name='package.json', origin=None):
     with open(file_name, 'r') as fp:
         json_obj = json.load(fp)
         for tag in ['dependencies', 'devDependencies']:
-            for name, ver in json_obj[tag].iteritems():
+            for name, ver in json_obj[tag].items():
                 result.append({
                     'name': name,
                     'version':  ver,

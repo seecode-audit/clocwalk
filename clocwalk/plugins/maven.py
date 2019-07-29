@@ -147,14 +147,17 @@ def start(**kwargs):
     tag_filter = kwargs.get('tag_filter', [])
     timeout = kwargs.get('timeout', 3)
 
+    properties = []
+
     result_file_list = glob.glob(os.path.join(code_dir, file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', file_name)) + \
+        glob.glob(os.path.join(code_dir, '**', file_name)) + \
         glob.glob(os.path.join(code_dir, '*', '*', file_name)) + \
         glob.glob(os.path.join(code_dir, '*', '*', '*', file_name))
 
     result = []
 
     for item in result_file_list:
+
         # FIXME
         relative_path = item.replace('{0}'.format(code_dir), '')
         relative_path = relative_path[1:] if relative_path.startswith('/') else relative_path
@@ -162,6 +165,7 @@ def start(**kwargs):
         tree = ElementTree.parse(item)
         doc_root = tree.getroot()
         reVal = _get_dependencies(doc_root, relative_path, skipNewVerCheck, timeout, tag_filter)
+
         if 'pom.xml' == relative_path:
             properties = _get_properties(doc_root)
         result.extend(reVal)
