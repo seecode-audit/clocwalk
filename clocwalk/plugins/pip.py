@@ -4,7 +4,7 @@ import os
 import glob
 
 __product__ = 'Python'
-__version__ = '0.2'
+__version__ = '0.3'
 
 
 def _get_version(version_str):
@@ -13,14 +13,13 @@ def _get_version(version_str):
     :param version_str:
     :return:
     """
-    if '==' in version_str:
-        name, version = version_str.split('==')
-    elif '>=' in version_str:
-        name, version = version_str.split('>=')
-    elif '<=' in version_str:
-        name, version = version_str.split('<=')
-    else:
-        name, version = version_str, ''
+
+    name, version = version_str, ''
+    ver_seps = ('==', '>=', '<=', "~=")
+
+    for sep in ver_seps:
+        if sep in version_str:
+            name, version = version_str.split(sep)
 
     return name, version
 
