@@ -41,6 +41,7 @@ def _get_dependencies(file_name='requirements.txt', origin=None):
                 'version':  ver,
                 'tag':  '',
                 'origin': origin,
+                'parent_origin': '',
                 'new_version': ''
             })
 

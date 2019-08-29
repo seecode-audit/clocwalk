@@ -24,6 +24,7 @@ def _get_dependencies(file_name='package.json', origin=None):
                     'version':  ver,
                     'tag':  tag,
                     'origin': origin,
+                    'parent_origin': '',
                     'new_version': ''
                 })
 

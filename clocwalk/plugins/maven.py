@@ -130,6 +130,7 @@ def _get_dependencies(xml_doc, relative_path_file='pom.xml', skipNewVerCheck=Fal
                     'version':  ver,
                     'tag':  _tag,
                     'origin': relative_path_file,
+                    'parent_origin': '',
                     'new_version': new_version
                 })
 
@@ -166,17 +167,18 @@ def start(**kwargs):
         doc_root = tree.getroot()
         reVal = _get_dependencies(doc_root, relative_path, skipNewVerCheck, timeout, tag_filter)
 
-        if 'pom.xml' == relative_path:
+        if 'pom.xml' == relative_path:  # root
             properties = _get_properties(doc_root)
         result.extend(reVal)
+
 
     for item in result:
         if not item['version'] or item['version'].startswith('${'):
             version_key = item['version'].replace('${', '').replace('}', '')
             if version_key in properties:
                 item['version'] = properties[version_key]
-            #else:
-            #    print item
+                item['parent_origin'] = 'pom.xml'
+
 
     return result
 

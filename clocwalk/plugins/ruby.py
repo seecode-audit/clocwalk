@@ -45,6 +45,7 @@ def _get_gemspec(code_dir, file_ext='gemspec'):
     if conf_list:
         with open(conf_list[0], 'r') as fp:
             for line in fp:
+                name = ''
                 version = ''
                 if 'add_development_dependency' in line.strip() or 'add_runtime_dependency' in line.strip():
                     current_conf = line.strip().split('_dependency')[1]
@@ -61,6 +62,7 @@ def _get_gemspec(code_dir, file_ext='gemspec'):
                         'version': version,
                         'tag': '',
                         'origin': conf_list[0],
+                        'parent_origin': '',
                         'new_version': ''
                     })
     return result
@@ -91,6 +93,7 @@ def _get_dependencies(code_dir, file_name, origin=None):
                 'version':  ver,
                 'tag':  '',
                 'origin': origin,
+                'parent_origin': '',
                 'new_version': ''
             })
 

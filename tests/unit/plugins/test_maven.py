@@ -16,8 +16,15 @@ class POMTestCase(TestCase):
         self.pom_dir = [
             'a/a1/pom.xml',
             'b/pom.xml',
+            'c/c1/pom.xml',
+            'c/c2/pom.xml',
             'pom.xml',
         ]
+
+    def test_start_include_dir(self):
+        result = start(code_dir=os.path.join(EXAMPLE_DATA_PATH, 'plugins', 'pom', 'c'), skipNewVerCheck=True)
+        for item in result:
+            self.assertTrue(item)
 
     def test_start_3_dir(self):
         result = start(code_dir=os.path.join(EXAMPLE_DATA_PATH, 'plugins', 'pom'), skipNewVerCheck=True)
