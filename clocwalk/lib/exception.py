@@ -23,3 +23,7 @@ class GenericException(CBaseException):
 
 class UserQuitException(CBaseException):
     pass
+
+
+class CodeDirIsNoneException(CBaseException):
+    pass

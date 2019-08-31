@@ -18,12 +18,13 @@ def _get_dependencies(file_name='package.json', origin=None):
     with open(file_name, 'r') as fp:
         json_obj = json.load(fp)
         for tag in ['dependencies', 'devDependencies']:
-            for name, ver in json_obj[tag].iteritems():
+            for name, ver in json_obj[tag].items():
                 result.append({
                     'name': name,
                     'version':  ver,
                     'tag':  tag,
                     'origin': origin,
+                    'parent_origin': '',
                     'new_version': ''
                 })
 
@@ -48,7 +49,9 @@ def start(**kwargs):
 
     for item in result_file_list:
         # FIXME
-        relative_path = item.replace('{0}/'.format(code_dir), '')
+        relative_path = item.replace('{0}'.format(code_dir), '')
+        relative_path = relative_path[1:] if relative_path.startswith('/') else relative_path
+
         result.extend(_get_dependencies(file_name=item, origin=relative_path))
 
     return result

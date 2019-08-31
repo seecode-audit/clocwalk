@@ -41,8 +41,6 @@ def _setPluginFunctions():
             sys.path.insert(0, dirname)
 
         try:
-            if pluginName in sys.modules:
-                del sys.modules[pluginName]
             module = __import__(pluginName)
         except ImportError as msg:
             raise SyntaxException("cannot import plugin script '%s' (%s)" % (pluginName, msg))
@@ -63,7 +61,7 @@ def _setConfigFile():
     """
     import yaml
     with open(paths.config_path) as fp:
-        conf.cloc = yaml.load(fp)
+        conf.cloc = yaml.load(fp, Loader=yaml.FullLoader)
 
 
 def setVerbosity():

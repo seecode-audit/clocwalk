@@ -4,7 +4,7 @@ import os
 import glob
 
 __product__ = 'Python'
-__version__ = '0.2'
+__version__ = '0.3'
 
 
 def _get_version(version_str):
@@ -13,14 +13,13 @@ def _get_version(version_str):
     :param version_str:
     :return:
     """
-    if '==' in version_str:
-        name, version = version_str.split('==')
-    elif '>=' in version_str:
-        name, version = version_str.split('>=')
-    elif '<=' in version_str:
-        name, version = version_str.split('<=')
-    else:
-        name, version = version_str, ''
+
+    name, version = version_str, ''
+    ver_seps = ('==', '>=', '<=', "~=")
+
+    for sep in ver_seps:
+        if sep in version_str:
+            name, version = version_str.split(sep)
 
     return name, version
 
@@ -42,6 +41,7 @@ def _get_dependencies(file_name='requirements.txt', origin=None):
                 'version':  ver,
                 'tag':  '',
                 'origin': origin,
+                'parent_origin': '',
                 'new_version': ''
             })
 
@@ -64,11 +64,16 @@ def start(**kwargs):
         glob.glob(os.path.join(code_dir, '*', '*', file_name)) + \
         glob.glob(os.path.join(code_dir, '*', '*', '*', file_name))
 
+    _ = glob.glob(os.path.join(code_dir, 'requirements', '*.txt'))
+    if _:
+        result_file_list.extend(_)
+
     result = []
 
     for item in result_file_list:
         # FIXME
-        relative_path = item.replace('{0}/'.format(code_dir), '')
+        relative_path = item.replace('{0}'.format(code_dir), '')
+        relative_path = relative_path[1:] if relative_path.startswith('/') else relative_path
         result.extend(_get_dependencies(file_name=item, origin=relative_path))
 
     return result

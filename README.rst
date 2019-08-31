@@ -9,7 +9,7 @@ Project code and dependent component analysis tools.
 .. image:: https://badge.fury.io/py/clocwalk.svg
     :target: https://badge.fury.io/py/clocwalk
 
-.. image:: https://img.shields.io/badge/python-2.6|2.7-brightgreen.svg
+.. image:: https://img.shields.io/badge/python-2.7|3.6|3.7-brightgreen.svg
     :target: https://www.python.org/
 
 .. image:: https://img.shields.io/github/issues/MyKings/clocwalk.svg
@@ -31,13 +31,31 @@ Project code and dependent component analysis tools.
     :alt: GitHub license
     :target: https://github.com/MyKings/clocwalk/blob/master/LICENSE
 
+Dependent installation
+-------------------------
+
+::
+
+  npm install -g cloc                    # https://www.npmjs.com/package/cloc
+  sudo apt install cloc                  # Debian, Ubuntu
+  sudo yum install cloc                  # Red Hat, Fedora
+  sudo dnf install cloc                  # Fedora 22 or later
+  sudo pacman -S cloc                    # Arch
+  sudo emerge -av dev-util/cloc          # Gentoo https://packages.gentoo.org/packages/dev-util/cloc
+  sudo apk add cloc                      # Alpine Linux
+  sudo pkg install cloc                  # FreeBSD
+  sudo port install cloc                 # Mac OS X with MacPorts
+  brew install cloc                      # Mac OS X with Homebrew
+  choco install cloc                     # Windows with Chocolatey
+  scoop install cloc                     # Windows with Scoop
+
 
 Install
 ----------
 
 ::
   
-  pip install clocwalk
+  pip setup.py install
 
 
 Usage
@@ -50,7 +68,7 @@ Usage
     def test():
         c = ClocDetector(code_dir='/tmp/sample_project')
         c.start()
-        print c.result
+        print c.getResult()
     
     if __name__ == '__main__':
         test()
@@ -60,7 +78,7 @@ CLI
 
 ::
   
-  $ python cli.py -p /tmp/clocwalk
+  $ python cli.py -p /tmp/clocwalk --skip-check-newver
 
 
 ::
