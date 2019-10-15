@@ -42,16 +42,12 @@ def cmdLineParser():
         parser.add_option('--version', '-V', dest='version', action='store_true',
                           default=False, help='Print out the version')
 
-        argv = []
-        for arg in sys.argv:
-            argv.append(arg, encoding=sys.getfilesystemencoding())
-
         try:
-            (args, _) = parser.parse_args(argv)
+            (args, _) = parser.parse_args()
 
             if not any((args.version, args.code_dir)):
                 errMsg = "missing a mandatory option (-p, --version)"
-                errMsg += "use -h for help"
+                errMsg += " use -h for help"
                 raise SystemExit(errMsg)
 
             if args.version:
@@ -66,14 +62,7 @@ def cmdLineParser():
 
         except SystemExit:
             raise
-
-    except (OptionError, TypeError) as ex:
-        parser.error(ex)
-
-    except SystemExit:
-        if IS_WIN:
-            print("\nPress Enter to continue...")
-            input()
-        raise
+    except Exception as ex:
+        print(ex.message)
 
     logger.debug("parsing command line")
