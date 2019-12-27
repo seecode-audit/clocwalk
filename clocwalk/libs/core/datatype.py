@@ -4,7 +4,7 @@
 import copy
 import types
 
-from clocwalk.lib.exception import DataException
+from clocwalk.libs.core.exception import DataException
 
 
 class AttribDict(dict):
@@ -79,3 +79,4 @@ class AttribDict(dict):
             retVal.__setitem__(key, copy.deepcopy(value, memo))
 
         return retVal
+

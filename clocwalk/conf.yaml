@@ -2,5 +2,22 @@ cloc:
   args:
     - "--exclude-dir"
     - ".git,locale,.scannerwork,node_modules"
-    - "-exclude-ext"
-    - ".tar.gz,.styl,.eot,.dll,.bak,.gif,.woff,.crt,.rar,.spf,.scss,.log,.bat,echarts,.ttf,.min.js,.bmp,.less,jquery,.csv,.css,.as,.otf,.jar,.txt,.psd,.pdf,.po,.manifest,.md,.jpg,.docx,.jpeg,.zip,.db,.doc,.svg,.ico,.sh,.tpl,.so,.properties,.cur,.template,.swp,.png,.iml,.tar,bootstrap,.swf,.mp3,.exe,.mp4"
+
+http:
+  headers:
+    user-agent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0'
+  proxies:
+    http: "socks5://127.0.0.1:1086"
+    https: "socks5://127.0.0.1:1086"
+  timeout: 15
+  tiemout_try: 3
+
+upgrade_interval_day: 7
+
+mvn:
+  repo:
+    - https://repo1.maven.org/maven2/
+
+nexus:
+  url:
+    - https://repository.sonatype.org/

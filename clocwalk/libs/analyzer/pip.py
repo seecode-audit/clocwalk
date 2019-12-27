@@ -4,7 +4,9 @@ import os
 import glob
 
 __product__ = 'Python'
-__version__ = '0.3'
+__version__ = '0.4'
+
+from clocwalk.libs.core.common import recursive_search_files
 
 
 def _get_version(version_str):
@@ -37,12 +39,12 @@ def _get_dependencies(file_name='requirements.txt', origin=None):
         for line in fp:
             name, ver = _get_version(line.strip())
             result.append({
-                'name': name,
-                'version':  ver,
-                'tag':  '',
-                'origin': origin,
-                'parent_origin': '',
-                'new_version': ''
+                'vendor': '',
+                'product': name,
+                'version': ver,
+                'parent_file': '',
+                'cve': {},
+                'origin_file': origin,
             })
 
     return result
@@ -59,10 +61,7 @@ def start(**kwargs):
     file_name = kwargs.get('file_name', 'requirements.txt')
     skipNewVerCheck = kwargs.get('skipNewVerCheck', False)
 
-    result_file_list = glob.glob(os.path.join(code_dir, file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', '*', file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', '*', '*', file_name))
+    result_file_list = recursive_search_files(code_dir, '*/requirements.txt')
 
     _ = glob.glob(os.path.join(code_dir, 'requirements', '*.txt'))
     if _:

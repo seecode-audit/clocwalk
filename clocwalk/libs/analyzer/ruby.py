@@ -1,10 +1,12 @@
 # coding: utf-8
 
-import os
 import glob
+import os
 
 __product__ = 'Ruby'
-__version__ = '0.2'
+__version__ = '0.3'
+
+from clocwalk.libs.core.common import recursive_search_files
 
 
 def _get_version(version_str):
@@ -58,12 +60,12 @@ def _get_gemspec(code_dir, file_ext='gemspec'):
                     if version.endswith(','):
                         version = version[:-1]
                     result.append({
-                        'name': name,
+                        'vendor': '',
+                        'product': name,
                         'version': version,
-                        'tag': '',
-                        'origin': conf_list[0],
-                        'parent_origin': '',
-                        'new_version': ''
+                        'parent_file': '',
+                        'cve': {},
+                        'origin_file': conf_list[0],
                     })
     return result
 
@@ -81,7 +83,7 @@ def _get_dependencies(code_dir, file_name, origin=None):
     with open(file_name, 'r') as fp:
         for line in fp:
             if line.strip().startswith('#') or line.strip().startswith('source') or \
-                    line.strip().startswith('group') or line.strip().startswith('end') or not line.strip():
+                line.strip().startswith('group') or line.strip().startswith('end') or not line.strip():
                 continue
 
             if line.startswith('gemspec'):
@@ -89,12 +91,12 @@ def _get_dependencies(code_dir, file_name, origin=None):
 
             name, ver = _get_version(line.strip())
             result.append({
-                'name': name,
-                'version':  ver,
-                'tag':  '',
-                'origin': origin,
-                'parent_origin': '',
-                'new_version': ''
+                'vendor': '',
+                'product': name,
+                'version': ver,
+                'parent_file': '',
+                'cve': {},
+                'origin_file': origin,
             })
 
     return result
@@ -108,11 +110,7 @@ def start(**kwargs):
     code_dir = kwargs.get('code_dir', '')
     file_name = kwargs.get('file_name', 'Gemfile')
     skipNewVerCheck = kwargs.get('skipNewVerCheck', False)
-
-    result_file_list = glob.glob(os.path.join(code_dir, file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', '*', file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', '*', '*', file_name))
+    result_file_list = recursive_search_files(code_dir, '*/Gemfile')
 
     result = []
 

@@ -22,6 +22,7 @@ setup(
     install_requires=[
         'lxml',
         'requests',
+        'requests[socks]',
         'PyYAML',
     ],
     extras_require={

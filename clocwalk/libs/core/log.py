@@ -17,4 +17,4 @@ FORMATTER_DEV = logging.Formatter("[%(asctime)s] [%(pathname)s(%(lineno)d)%(func
 LOGGER_HANDLER.setFormatter(FORMATTER_DEV)
 #LOGGER_HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(LOGGER_HANDLER)
-LOGGER.setLevel(logging.INFO)
+LOGGER.setLevel(logging.DEBUG)
