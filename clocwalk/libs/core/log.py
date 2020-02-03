@@ -15,6 +15,6 @@ except ImportError:
 FORMATTER = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s", "%H:%M:%S")
 FORMATTER_DEV = logging.Formatter("[%(asctime)s] [%(pathname)s(%(lineno)d)%(funcName)s()] [%(levelname)s] %(message)s", "%H:%M:%S")
 LOGGER_HANDLER.setFormatter(FORMATTER_DEV)
-#LOGGER_HANDLER.setFormatter(FORMATTER)
+LOGGER_HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(LOGGER_HANDLER)
-LOGGER.setLevel(logging.DEBUG)
+LOGGER.setLevel(logging.INFO)

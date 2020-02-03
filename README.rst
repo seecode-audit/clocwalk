@@ -64,109 +64,123 @@ Usage
 ::
 
     from cloclwalk import ClocDetector
-    
+    from cloclwalk import query_cve
+
     def test():
-        c = ClocDetector(code_dir='/tmp/sample_project')
+        c = ClocDetector(
+            code_dir='/tmp/sample_project',
+            enable_vuln_scan=True,
+            enable_upgrade=True,
+        )
         c.start()
         print c.getResult()
     
     if __name__ == '__main__':
         test()
+        print(query_cve("CVE-2020-0608"))
 
 CLI
 -----------
 
 ::
   
-  $ python cli.py -p /tmp/clocwalk --skip-check-newver
+  $ python cli.py --vuln-scan -p /data/seecode/tasks/7230/vuln_project-master/
 
 
 ::
+
+    ==============================================================
     
-            Clocwalk v0.1.0
-      Project code and dependent component analysis tools.
+    _________ .__                               .__   __
+    \_   ___ \|  |   ____   ______  _  _______  |  | |  | __
+    /    \  \/|  |  /  _ \_/ ___\ \/ \/ /\__  \ |  | |  |/ /
+    \     \___|  |_(  <_> )  \___\     /  / __ \|  |_|    <
+     \______  /____/\____/ \___  >\/\_/  (____  /____/__|_ \
+            \/                 \/             \/          \/
     
-    [15:38:50] [INFO] 4 fingerprints plugin loaded.
-    [15:38:50] [INFO] checking depends ...
-    [15:38:50] [INFO] analysis statistics code ...
-    {'cloc': {u'C': {u'blank': 671, u'code': 2418, u'comment': 297, u'nFiles': 3},
-              u'C Shell': {u'blank': 12,
-                           u'code': 17,
-                           u'comment': 7,
-                           u'nFiles': 1},
-              u'C/C++ Header': {u'blank': 1982,
-                                u'code': 13064,
-                                u'comment': 6219,
-                                u'nFiles': 81},
-              u'CSS': {u'blank': 736,
-                       u'code': 3568,
-                       u'comment': 464,
-                       u'nFiles': 34},
-              u'Fish Shell': {u'blank': 16,
-                              u'code': 47,
-                              u'comment': 13,
-                              u'nFiles': 1},
-              u'HTML': {u'blank': 142,
-                        u'code': 1419,
-                        u'comment': 6,
-                        u'nFiles': 41},
-              u'INI': {u'blank': 1, u'code': 3, u'comment': 0, u'nFiles': 1},
-              u'JSON': {u'blank': 0, u'code': 362, u'comment': 0, u'nFiles': 66},
-              u'JavaScript': {u'blank': 5148,
-                              u'code': 49720,
-                              u'comment': 2630,
-                              u'nFiles': 33},
-              u'Maven': {u'blank': 9, u'code': 221, u'comment': 0, u'nFiles': 2},
-              u'PO File': {u'blank': 7, u'code': 27, u'comment': 8, u'nFiles': 2},
-              u'Python': {u'blank': 133897,
-                          u'code': 587161,
-                          u'comment': 188640,
-                          u'nFiles': 3216},
-              u'SUM': {u'blank': 143463,
-                       u'code': 664447,
-                       u'comment': 199996,
-                       u'nFiles': 3700},
-              u'TeX': {u'blank': 88,
-                       u'code': 1602,
-                       u'comment': 603,
-                       u'nFiles': 6},
-              u'Visual Basic': {u'blank': 23,
-                                u'code': 186,
-                                u'comment': 0,
-                                u'nFiles': 2},
-              u'Windows Resource File': {u'blank': 10,
-                                         u'code': 153,
-                                         u'comment': 0,
-                                         u'nFiles': 54},
-              u'XML': {u'blank': 15,
-                       u'code': 1503,
-                       u'comment': 5,
-                       u'nFiles': 130},
-              u'XSLT': {u'blank': 605,
-                        u'code': 2347,
-                        u'comment': 1095,
-                        u'nFiles': 7},
-              u'YAML': {u'blank': 96, u'code': 607, u'comment': 9, u'nFiles': 19},
-              u'header': {u'cloc_url': u'github.com/AlDanial/cloc',
-                          u'cloc_version': u'1.76',
-                          u'elapsed_seconds': 9.26226902008057,
-                          u'files_per_second': 399.470150562288,
-                          u'lines_per_second': 108818.476100712,
-                          u'n_files': 3700,
-                          u'n_lines': 1007906},
-              u'make': {u'blank': 5, u'code': 22, u'comment': 0, u'nFiles': 1}},
-     'depends': [{'Python': [{'name': 'lxml',
-                              'new_version': '',
-                              'origin': u'requirements.txt',
-                              'tag': '',
-                              'version': ''},
-                             {'name': 'requests',
-                              'new_version': '',
-                              'origin': u'requirements.txt',
-                              'tag': '',
-                              'version': ''},
-                             {'name': 'PyYAML',
-                              'new_version': '',
-                              'origin': u'requirements.txt',
-                              'tag': '',
-                              'version': ''}]}]}
+            clocwalk v2.0.0 xsseroot#gmail.com
+    ==============================================================
+    
+    [17:45:02] [INFO] 4 analyzer plugin loaded.
+    [17:45:02] [INFO] analysis statistics code ...
+    [17:45:03] [INFO] Start using CPE rules for matching ...
+    [17:45:03] [INFO] [-] Start analysis "/data/seecode/tasks/7230/vuln_project-master/pom.xml" file...
+    [17:45:03] [INFO] [-] Start analysis "/data/seecode/tasks/7230/vuln_project-master/src/pom.xml" file...
+    [17:45:03] [INFO] Start using CPE rules for matching ...
+    [17:45:05] [INFO] Start using CPE rules for matching ...
+    [17:45:05] [INFO] Start using CPE rules for matching ...
+    {'cloc': {'Java': {'blank': 9, 'code': 244, 'comment': 21, 'nFiles': 2},
+              'Maven': {'blank': 6, 'code': 67, 'comment': 0, 'nFiles': 2},
+              'Python': {'blank': 9, 'code': 106, 'comment': 3, 'nFiles': 2},
+              'SUM': {'blank': 24, 'code': 417, 'comment': 24, 'nFiles': 6},
+              'header': {'cloc_url': 'github.com/AlDanial/cloc',
+                         'cloc_version': '1.82',
+                         'elapsed_seconds': 0.254485845565796,
+                         'files_per_second': 23.5769497775417,
+                         'lines_per_second': 1827.21360775948,
+                         'n_files': 6,
+                         'n_lines': 465}},
+     'depends': [{'Java': [{'cve': {'CVE-2017-18349': 'parseObject in Fastjson '
+                                                      'before 1.2.25, as used in '
+                                                      'FastjsonEngine in Pippo '
+                                                      '1.11.0 and other products, '
+                                                      'allows remote attackers to '
+                                                      'execute arbitrary code via '
+                                                      'a crafted JSON request, as '
+                                                      'demonstrated by a crafted '
+                                                      'rmi:// URI in the '
+                                                      'dataSourceName field of '
+                                                      'HTTP POST data to the Pippo '
+                                                      '/json URI, which is '
+                                                      'mishandled in '
+                                                      'AjaxApplication.java.'},
+                            'new_version': '',
+                            'origin_file': '/data/seecode/tasks/7230/vuln_project-master/pom.xml',
+                            'parent_file': '',
+                            'product': 'fastjson',
+                            'vendor': 'com.alibaba',
+                            'version': '1.2.8'},
+                           {'cve': {},
+                            'new_version': '',
+                            'origin_file': '/data/seecode/tasks/7230/vuln_project-master/pom.xml',
+                            'parent_file': '',
+                            'product': 'spring-core',
+                            'vendor': 'org.springframework',
+                            'version': '4.3.12.RELEASE'},
+                           {'cve': {},
+                            'new_version': '',
+                            'origin_file': '/data/seecode/tasks/7230/vuln_project-master/pom.xml',
+                            'parent_file': '',
+                            'product': 'solr-solrj',
+                            'vendor': 'org.apache.solr',
+                            'version': '5.5.3'},
+                           {'cve': {},
+                            'new_version': '',
+                            'origin_file': '/data/seecode/tasks/7230/vuln_project-master/pom.xml',
+                            'parent_file': '',
+                            'product': 'shiro-core',
+                            'vendor': 'org.apache.shiro',
+                            'version': '1.2.4'},
+                           {'cve': {'CVE-2017-15095': 'A deserialization flaw was '
+                                                      'discovered in the '
+                                                      'jackson-databind in '
+                                                      'versions before 2.8.10 and '
+                                                      '2.9.1, which could allow an '
+                                                      'unauthenticated user to '
+                                                      'perform code execution by '
+                                                      'sending the maliciously '
+                                                      'crafted input to the '
+                                                      'readValue method of the '
+                                                      'ObjectMapper. This issue '
+                                                      'extends the previous flaw '
+                                                      'CVE-2017-7525 by '
+                                                      'blacklisting more classes '
+                                                      'that could be used '
+                                                      'maliciously.'},
+                            'new_version': '',
+                            'origin_file': '/data/seecode/tasks/7230/vuln_project-master/src/pom.xml',
+                            'parent_file': '/data/seecode/tasks/7230/vuln_project-master/pom.xml',
+                            'product': 'jackson-databind',
+                            'vendor': 'com.fasterxml.jackson.core',
+                            'version': '2.8.4'}]}]}
+    [17:45:05] [INFO] Total time consumption: 3.34(s)
