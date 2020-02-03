@@ -24,18 +24,18 @@ from clocwalk.libs.detector.cvecpe import cpe_parse
 
 class Upgrade(object):
 
-    def __init__(self, proxies=None, upgrade_interval_day='7d', http_timeout=15):
+    def __init__(self, proxies=None, upgrade_interval='7d', http_timeout=15):
         """
 
         :param proxies:
-        :param upgrade_interval_day:
+        :param upgrade_interval:
         :param http_timeout:
         """
         self.http_timeout = int(http_timeout)
         self.cve_path = paths.CVE_PATH
         self.cve_cpe_db = paths.DB_FILE
         self.cpe_file = os.path.join(self.cve_path, 'nvdcpematch-1.0.json')
-        interval_type = re.search(r'(\d+)(\w)', upgrade_interval_day)
+        interval_type = re.search(r'(\d+)(\w)', upgrade_interval)
         if interval_type and interval_type.group(2) in ('d', 'h'):
             if interval_type.group(2) == 'd':
                 self.upgrade_interval = 60 * 60 * 24 * int(interval_type.group(1))

@@ -24,6 +24,20 @@ from clocwalk.libs.core.update import Upgrade
 from clocwalk.libs.core.clocwrapper import ClocWrapper
 
 
+def query_cve(cve):
+    """
+
+    :param cve:
+    :return:
+    """
+    result = ''
+    if kb.db:
+        result = kb.db.query_cve_by_id(cve)
+    else:
+        pass  # TODO warning
+    return result
+
+
 class ClocDetector(object):
     """"""
 
@@ -35,6 +49,7 @@ class ClocDetector(object):
 
         code_dir = kwargs.get('code_dir', None)
         self.enable_vuln_scan = kwargs.get('enable_vuln_scan', False)
+        self.enable_upgrade = kwargs.get('enable_upgrade', False)
         self.skip_check_new_version = kwargs.get('skip_check_new_version', False)
         self.cloc_args = kwargs.get('cloc_args', [])
         self.tag_filter = kwargs.get('tag_filter', [])
@@ -47,6 +62,14 @@ class ClocDetector(object):
         self.cloc = ClocWrapper()
         self.pool = ThreadPool(20)
         self._vuln_list = []
+
+        if self.enable_upgrade:
+            up = Upgrade(
+                proxies=conf['http']['proxies'],
+                upgrade_interval=conf['upgrade_interval'],
+                http_timeout=conf['http']['timeout']
+            )
+            up.start()
 
     def start(self):
         """
@@ -136,7 +159,7 @@ def main():
         if conf.upgrade:
             up = Upgrade(
                 proxies=conf['http']['proxies'],
-                upgrade_interval_day=conf['upgrade_interval'],
+                upgrade_interval=conf['upgrade_interval'],
                 http_timeout=conf['http']['timeout']
             )
             up.start()

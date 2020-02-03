@@ -42,9 +42,10 @@ def _get_dependencies(file_name='requirements.txt', origin=None):
                 'vendor': '',
                 'product': name,
                 'version': ver,
+                'new_version': '',
                 'parent_file': '',
                 'cve': {},
-                'origin_file': origin,
+                'origin_file': file_name,
             })
 
     return result

@@ -192,6 +192,33 @@ class DBHelper(object):
         except Exception as ex:
             import traceback;traceback.print_exc()
 
+    def query_cve_by_id(self, cve):
+        """
+
+        :param cve:
+        :return:
+        """
+
+        try:
+            self.cursor.execute(
+                "SELECT cve, description, links, cvss_v2_severity, cvss_v2_impactscore, cvss_v3_impactscore, cpe23uri"
+                " FROM cve WHERE cve=?",
+                (cve,)
+            )
+            item = self.cursor.fetchone()
+            entity = AttribDict()
+            entity.cve = item[0]
+            entity.description = item[1]
+            entity.links = item[2]
+            entity.cvss_v2_severity = item[3]
+            entity.cvss_v2_impactscore = item[4]
+            entity.cvss_v3_impactscore = item[5]
+            entity.cpe23uri = item[6]
+            return entity
+        except Exception as ex:
+            import traceback;traceback.print_exc()
+
+
     def query_cpe_set_by_product(self, product):
         """
 

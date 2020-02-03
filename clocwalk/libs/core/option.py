@@ -75,13 +75,23 @@ def setConfigFile():
         conf.update(yaml.load(fp, Loader=yaml.FullLoader))
 
 
-def update_check():
+def update_check(**kwargs):
+    """
+
+    :param kwargs:
+    :return:
+    """
+    proxies = kwargs.get('proxies', None)
+    force_update = kwargs.get('force_update', True)
+    http_timeout = kwargs.get('http_timeout', 15)
+    upgrade_interval = kwargs.get('upgrade_interval', '7d')
+
     # force update
-    if not os.path.isfile(paths.DB_FILE) or conf.force_update:
+    if not os.path.isfile(paths.DB_FILE) or force_update:
         up = Upgrade(
-            proxies=conf['http']['proxies'],
-            upgrade_interval_day=conf['upgrade']['interval'],
-            http_timeout=conf['http']['timeout']
+            proxies=proxies,
+            upgrade_interval=upgrade_interval,
+            http_timeout=http_timeout
         )
         up.start()
 
@@ -114,5 +124,3 @@ def init():
     kb.cpe_cache = AttribDictCache()
     kb.http_cache = AttribDictHttpCache()
     setConfigFile()
-    update_check()
-

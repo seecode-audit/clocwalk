@@ -63,6 +63,7 @@ def _get_gemspec(code_dir, file_ext='gemspec'):
                         'vendor': '',
                         'product': name,
                         'version': version,
+                        'new_version': '',
                         'parent_file': '',
                         'cve': {},
                         'origin_file': conf_list[0],

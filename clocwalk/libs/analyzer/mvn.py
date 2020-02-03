@@ -209,10 +209,9 @@ def start(**kwargs):
 
     for item in pom_file_list:
         logger.info('[-] Start analysis "{0}" file...'.format(item))
-        file_name = item[len(code_dir):]
         with open(item, 'rb') as fp:
             pom_content = fp.read()
-            pom = PomEntity(origin_file_name=file_name, pom_content=pom_content.decode())
+            pom = PomEntity(origin_file_name=item, pom_content=pom_content.decode())
             if not pom.parent:
                 if pom.key not in kb.dependencies:
                     kb.dependencies[pom.key] = pom
@@ -250,6 +249,7 @@ def start(**kwargs):
                 'vendor': item['group_id'],
                 'product': item['artifact_id'],
                 'version': version,
+                'new_version': '',
                 'cve': {},
                 'parent_file': parent_file if parent_file else pom.parent_file,
                 'origin_file': pom.file_name,
