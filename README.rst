@@ -73,7 +73,7 @@ Usage
             enable_upgrade=True,
         )
         c.start()
-        print c.getResult()
+        print(c.getResult())
     
     if __name__ == '__main__':
         test()
