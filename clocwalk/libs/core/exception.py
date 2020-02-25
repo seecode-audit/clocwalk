@@ -28,6 +28,11 @@ class UserQuitException(CodeBaseException):
 class CodeDirIsNoneException(CodeBaseException):
     pass
 
+
 class HTTPStatusCodeError(CodeBaseException):
+    pass
+
+
+class NoUpgradeRequiredError(CodeBaseException):
     pass
 

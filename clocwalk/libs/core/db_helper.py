@@ -60,8 +60,8 @@ class DBHelper(object):
             if self.cursor:
                 # PRIMARY KEY
                 self.cursor.executescript("""CREATE TABLE cve (
-                   `cve` TEXT,  
-                   `cpe23uri` TEXT,  
+                   `cve` TEXT,
+                   `cpe23uri` TEXT,
                    `description` TEXT,
                    `links` TEXT,
                    `problemtype` TEXT,
@@ -118,6 +118,7 @@ class DBHelper(object):
         :param items:
         :return:
         """
+        result = False
         try:
             self.cursor.executemany(
                 "INSERT INTO cve (cve, cpe23uri, description, links, problemtype, year, cvss_v2_severity, "
@@ -125,9 +126,11 @@ class DBHelper(object):
                 items
             )
             self.conn.commit()
+            result = True
         except Exception as ex:
             import traceback;
             traceback.print_exc()
+        return result
 
     def create_cnvd_entity(self, **kwargs):
         """
@@ -135,6 +138,7 @@ class DBHelper(object):
         :param kwargs:
         :return:
         """
+        result = False
         try:
             cnvd = kwargs.get('cnvd')
             description = kwargs.get('description')
@@ -146,9 +150,11 @@ class DBHelper(object):
                 (cnvd, description, risk, links)
             )
             self.conn.commit()
+            result = True
         except Exception as ex:
             import traceback;
             traceback.print_exc()
+        return result
 
     def create_cnvd_bulk(self, items):
         """
@@ -156,15 +162,18 @@ class DBHelper(object):
         :param items:
         :return:
         """
+        result = False
         try:
             self.cursor.executemany(
                 "INSERT INTO cnvd (cnvd, description, risk, links) VALUES(?, ?, ?, ?)",
                 items
             )
             self.conn.commit()
+            result = True
         except Exception as ex:
             import traceback;
             traceback.print_exc()
+        return result
 
     def query_cve_by_cpe23uri(self, cpe23uri):
         """
@@ -180,15 +189,19 @@ class DBHelper(object):
                 (cpe23uri,)
             )
             item = self.cursor.fetchone()
-            entity = AttribDict()
-            entity.cve = item[0]
-            entity.description = item[1]
-            entity.links = item[2]
-            entity.cpe23uri = cpe23uri
-            entity.cvss_v2_severity = item[3]
-            entity.cvss_v2_impactscore = item[4]
-            entity.cvss_v3_impactscore = item[5]
-            return entity
+            # print(cpe23uri, item)  # TODO not found CVE?
+            if item:
+                entity = AttribDict()
+                entity.cve = item[0]
+                entity.description = item[1]
+                entity.links = item[2]
+                entity.cpe23uri = cpe23uri
+                entity.cvss_v2_severity = item[3]
+                entity.cvss_v2_impactscore = item[4]
+                entity.cvss_v3_impactscore = item[5]
+                return entity
+            else:
+                return None
         except Exception as ex:
             import traceback;traceback.print_exc()
 
@@ -206,18 +219,20 @@ class DBHelper(object):
                 (cve,)
             )
             item = self.cursor.fetchone()
-            entity = AttribDict()
-            entity.cve = item[0]
-            entity.description = item[1]
-            entity.links = item[2]
-            entity.cvss_v2_severity = item[3]
-            entity.cvss_v2_impactscore = item[4]
-            entity.cvss_v3_impactscore = item[5]
-            entity.cpe23uri = item[6]
-            return entity
+            if item:
+                entity = AttribDict()
+                entity.cve = item[0]
+                entity.description = item[1]
+                entity.links = item[2]
+                entity.cvss_v2_severity = item[3]
+                entity.cvss_v2_impactscore = item[4]
+                entity.cvss_v3_impactscore = item[5]
+                entity.cpe23uri = item[6]
+                return entity
+            else:
+                return None
         except Exception as ex:
             import traceback;traceback.print_exc()
-
 
     def query_cpe_set_by_product(self, product):
         """

@@ -86,6 +86,8 @@ class Cpe23Info(object):
         self._update = kwargs.get('update')
         if self._cve_info:
             self._cve = self._cve_info.cve
+        else:
+            self._cve = ""
 
     def __str__(self):
         return {

@@ -20,6 +20,7 @@ from clocwalk.libs.core.data import paths
 from clocwalk.libs.core.data import conf
 from clocwalk.libs.core.db_helper import DBHelper
 from clocwalk.libs.detector.cvecpe import cpe_parse
+from clocwalk.libs.core.exception import NoUpgradeRequiredError
 
 
 class Upgrade(object):
@@ -53,7 +54,7 @@ class Upgrade(object):
         self.headers.update(conf['http']['headers'])
 
         self.pool = ThreadPool(10)
-        logger.info('Proxies: {0}'.format(proxies))
+        logger.debug('Proxies: {0}'.format(proxies))
         self.proxies = proxies
 
     def download_cpe_match_file(self):
@@ -200,6 +201,10 @@ class Upgrade(object):
             kb.db.create_cve_bulk(cve_list)
 
     @property
+    def last_update_time(self):
+        return datetime.datetime.fromtimestamp(int(os.stat(self.cve_cpe_db).st_atime))
+
+    @property
     def is_update(self):
         result = False
         if os.path.isfile(self.cve_cpe_db):
@@ -280,8 +285,11 @@ class Upgrade(object):
                 self.cve_upgrade()
                 logger.info('Rule upgrade succeeded.')
             else:
-                raise Exception("No upgrade required.")
+                raise NoUpgradeRequiredError("No upgrade required, last update time: {0}.".format(
+                    self.last_update_time))
             logger.info('Total time consumption: {0}(s)'.format(round(time.time() - s_time, 2)))
+        except NoUpgradeRequiredError as ex:
+            logger.warning(ex)
         except Exception as ex:
             import traceback;traceback.print_exc()
             logger.error(ex)
