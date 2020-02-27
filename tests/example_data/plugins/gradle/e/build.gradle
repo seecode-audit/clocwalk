@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'application'
+    id "io.freefair.lombok" version "3.1.4"
+    id 'org.gretty' version '2.3.1'
+}
+group 'cn.simple'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    flatDir(dirs:"/src/main/webapp/WEB-INF/lib")
+    jcenter()
+}
+gretty{
+    servletContainer = 'tomcat8'
+}
+configurations {
+    // remove default logger
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+dependencies {
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.struts', name: 'struts2-core', version: '2.5.5'
+
+    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-web', version: '2.11.1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.1.1.RELEASE'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.1.1.RELEASE'
+    compile('com.alibaba:druid:1.1.6')
+    compile('org.springframework.boot:spring-boot-starter-jdbc:2.1.1.RELEASE')
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.1.1.RELEASE')
+
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
+
+    compile("redis.clients:jedis:3.0.1")
+
+    compile('org.springframework.boot:spring-boot-starter-cache:2.1.1.RELEASE')
+    compile('com.alibaba:fastjson:1.2.51')
+    compile('org.springframework.boot:spring-boot-starter-data-redis:2.1.1.RELEASE')
+}
+task dbStart(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'org.hsqldb.server.Server'
+    workingDir='db'
+}
+task dbManager(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'org.hsqldb.util.DatabaseManagerSwing'
+}
+//mainClassName="demo.spring.xmljava.SpringXmlJavaDemo"
