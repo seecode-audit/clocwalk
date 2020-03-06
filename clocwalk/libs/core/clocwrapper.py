@@ -5,10 +5,10 @@ import os
 import subprocess
 import sys
 
-from clocwalk.lib.data import logger
+from clocwalk.libs.core.data import logger
 
 
-class ClocCode(object):
+class ClocWrapper(object):
 
     def __init__(self, search_path=('cloc', '/usr/bin/cloc', '/usr/local/bin/cloc')):
         """
@@ -24,11 +24,13 @@ class ClocCode(object):
         self._args = ''
         self._result = ''
         self._result = ''
+        self.cloc_path = ''
 
         for path in search_path:
             try:
-                if sys.platform.startswith('freebsd') or sys.platform.startswith('linux') or sys.platform.startswith(
-                    'darwin'):
+                if sys.platform.startswith('freebsd') or \
+                    sys.platform.startswith('linux') or \
+                    sys.platform.startswith('darwin'):
                     p = subprocess.Popen(
                         [path, '--version'],
                         bufsize=10000,
@@ -45,7 +47,7 @@ class ClocCode(object):
             except OSError:
                 pass
             else:
-                self._cloc_path = path
+                self.cloc_path = path
                 break
         else:
             raise Exception(
@@ -92,7 +94,7 @@ class ClocCode(object):
         assert not _args is list, 'args must be a list!'
 
         code_dir = kwargs.get('code_dir', None)
-        args = [self._cloc_path, '--json', '-'] + _args + [code_dir]
+        args = [self.cloc_path, '--json', '-'] + _args + [code_dir]
         logger.debug('Scan parameters: "{0}"'.format(' '.join(args)))
         self._args = ' '.join(args)
 

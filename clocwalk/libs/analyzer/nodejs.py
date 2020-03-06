@@ -1,11 +1,11 @@
 # coding: utf-8
 
-import os
 import json
-import glob
 
 __product__ = 'JavaScript'
-__version__ = '0.2'
+__version__ = '0.3'
+
+from clocwalk.libs.core.common import recursive_search_files
 
 
 def _get_dependencies(file_name='package.json', origin=None):
@@ -20,14 +20,14 @@ def _get_dependencies(file_name='package.json', origin=None):
         for tag in ['dependencies', 'devDependencies']:
             for name, ver in json_obj[tag].items():
                 result.append({
-                    'name': name,
-                    'version':  ver,
-                    'tag':  tag,
-                    'origin': origin,
-                    'parent_origin': '',
-                    'new_version': ''
+                    'vendor': tag,
+                    'product': name,
+                    'version': ver,
+                    'new_version': '',
+                    'parent_file': '',
+                    'cve': {},
+                    'origin_file': file_name,
                 })
-
     return result
 
 
@@ -39,11 +39,7 @@ def start(**kwargs):
     code_dir = kwargs.get('code_dir', '')
     file_name = kwargs.get('file_name', 'package.json')
     skipNewVerCheck = kwargs.get('skipNewVerCheck', False)
-
-    result_file_list = glob.glob(os.path.join(code_dir, file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', '*', file_name)) + \
-        glob.glob(os.path.join(code_dir, '*', '*', '*', file_name))
+    result_file_list = recursive_search_files(code_dir, '*/package.json')
 
     result = []
 

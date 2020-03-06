@@ -1,3 +1,6 @@
 lxml
-requests
+requests>=2.20.0
+requests[socks]
 PyYAML
+cryptography
+pyOpenSSL
