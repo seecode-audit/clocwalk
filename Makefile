@@ -15,7 +15,7 @@ install:
 unit:
 	export PYTHONPATH=$(SRC_DIR) && nosetests -x -v --nocapture \
 	--with-coverage --cover-erase --cover-package=$(SRC_DIR) \
-	tests/unit/plugins
+	tests/unit/
 
 clean:
 	rm -rf *.egg
