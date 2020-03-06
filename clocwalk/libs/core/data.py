@@ -13,7 +13,8 @@ paths = AttribDict()
 paths.ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 home_path = None
-if PYVERSION == 2:
+
+if PYVERSION.startswith('2'):
     home_path = os.path.expanduser('~')
 else:
     from pathlib import Path

@@ -7,8 +7,6 @@ import sys
 import pprint
 import time
 
-from gevent.threadpool import ThreadPool
-
 base_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(base_path)
 
@@ -60,7 +58,6 @@ class ClocDetector(object):
         self.code_dir = code_dir
         self._result = {'cloc': None, 'depends': []}
         self.cloc = ClocWrapper()
-        self.pool = ThreadPool(20)
         self._vuln_list = []
 
         if self.enable_upgrade:
