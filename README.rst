@@ -184,3 +184,9 @@ CLI
                             'vendor': 'com.fasterxml.jackson.core',
                             'version': '2.8.4'}]}]}
     [17:45:05] [INFO] Total time consumption: 3.34(s)
+
+
+CVE
+-----------
+
+* https://nvd.nist.gov/vuln/search
