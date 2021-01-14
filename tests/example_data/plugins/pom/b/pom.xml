@@ -64,7 +64,7 @@
         <quartz.version>2.2.3</quartz.version>
         <quasar-maven-plugin.version>0.7.5</quasar-maven-plugin.version>
         <quasar.versoin>0.7.7</quasar.versoin>
-        <poi.versoin>3.16</poi.versoin>
+        <poi.versoin>4.1.2</poi.versoin>
         <spring-boot-maven-plugi.version>1.5.3.RELEASE</spring-boot-maven-plugi.version>
         <commons-lang3.version>3.5</commons-lang3.version>
     </properties>
